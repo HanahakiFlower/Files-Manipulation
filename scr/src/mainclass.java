@@ -30,12 +30,16 @@ public class mainclass {
     }
 
     public static void write_file(File file, String product, Double price) {
-        String new_path = file.getParent() + "\\summary.csv";
-        File check_file = new File(new_path);
+        String new_path = file.getParent() + "\\out";
+        boolean success = new File(new_path).mkdir();
+        String path_new_file = new_path + "\\summary.csv";
+
+
+        File check_file = new File(path_new_file);
         if (check_file.exists()) {
             String[] lines = new String[] { product, ", ", price.toString() + "\n" };
 
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(new_path, true))) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(path_new_file, true))) {
                 for (String line : lines) {
                     bw.write(line);
                 }
@@ -46,7 +50,7 @@ public class mainclass {
         } else {
             String[] lines = new String[] { product, ", ", price.toString() };
 
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(new_path))) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(path_new_file))) {
                 for (String line : lines) {
                     bw.write(line);
                 }
@@ -54,6 +58,10 @@ public class mainclass {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        if(success){
+            System.out.println("Directory created successfully");
         }
     }
 }
